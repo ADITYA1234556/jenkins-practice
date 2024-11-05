@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'master', url: 'https://github.com/ADITYA1234556/jenkins-practice.git'
+                git branch: 'adi', url: 'https://github.com/ADITYA1234556/jenkins-practice.git'
             }
         }
         stage('Install Dependencies') {
