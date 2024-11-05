@@ -38,10 +38,10 @@ pipeline {
         emailext( to: "adityanavaneethan98@gmail.com", subject: "Jenkins Build Successful: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}", body: "The build was successful! You can access it here: ${env.BUILD_URL}", attachLog: true)
         }
         failure {
-        emailext( to: 'adityanavaneethan98@gmail.com', subject: 'Jenkins Build failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}', body: 'The build was failure! You can access it here: ${env.BUILD_URL}',attachLog: true)
+        emailext( to: "adityanavaneethan98@gmail.com", subject: 'Jenkins Build failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}', body: 'The build was failure! You can access it here: ${env.BUILD_URL}',attachLog: true)
         }
         unstable {
-        emailext( to: 'adityanavaneethan98@gmail.com', subject: 'Jenkins Build unstable: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}', body: 'The build was unstable! You can access it here: ${env.BUILD_URL}',attachLog: true)
+        emailext( to: "adityanavaneethan98@gmail.com", subject: 'Jenkins Build unstable: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}', body: 'The build was unstable! You can access it here: ${env.BUILD_URL}',attachLog: true)
         }
     }
 
