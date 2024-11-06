@@ -65,7 +65,7 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production"
-          aws s3 cp . s3://111-aditya-kms/ --recursive --debug
+          aws s3 cp . s3://111-aditya-kms/githubartifact/ --recursive --debug
 
       # Optional: Notification if the deployment is successful
       - name: Notify on Success
