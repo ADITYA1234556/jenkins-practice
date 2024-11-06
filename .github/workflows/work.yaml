@@ -1,0 +1,92 @@
+name: Python app
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  EMAIL: ${{ secrets.EMAIL_USERNAME }}
+  PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        id: python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          python3 -m pytest test_main.py 
+
+      - name: Package the application
+        run: |
+          zip -r app.zip app.py requirements.txt Procfile test_app.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-zip
+          path: app.zip
+
+
+      - name: Deploy to production
+        env:
+          ENV_VAR: ${{ secrets.SECRET_KEY }}
+        run: |
+          echo "Deploying to production"
+          aws s3 cp . s3://111-aditya-kms/ --recursive
+
+      # Optional: Notification if the deployment is successful
+      - name: Notify on Success
+        if: success()
+        run: |
+          echo "Deployment successful"
+
+      # Optional: Notification if the deployment fails
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "Deployment failed"   
+      
+      - name: Send Success Notification Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.example.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          to: "adityanavaneethan98@gmail.com"
+          subject: "Jenkins Build Successful: ${GITHUB_REPOSITORY} - Build #${GITHUB_RUN_ID}"
+          body: "The build was successful! You can access it here: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+      - name: Send Failure Notification Email
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.example.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          to: "adityanavaneethan98@gmail.com"
+          subject: "GitHub Build Failed: ${GITHUB_REPOSITORY} - Build #${GITHUB_RUN_ID}"
+          body: "The build failed! You can access it here: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
