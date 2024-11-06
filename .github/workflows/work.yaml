@@ -51,12 +51,12 @@ jobs:
         run: |
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws sts get-caller-identity
+#
+#      - name: Configure AWS CLI
+#        run: |
+#          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws sts get-caller-identity
 
 
       - name: Verify AWS credentials
@@ -67,8 +67,6 @@ jobs:
           ls -R
 
       - name: Deploy to production
-        env:
-          ENV_VAR: ${{ secrets.SECRET_KEY }}
         run: |
           echo "Deploying to production"
           aws s3 cp . s3://111-aditya-kms/ --recursive --debug
