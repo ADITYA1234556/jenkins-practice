@@ -49,7 +49,6 @@ jobs:
           path: ./app.zip
 
       - name:
-        Debug: Check if app.zip exists
         run: |
           echo "Checking if app.zip exists"
           ls -l ./app.zip || echo "app.zip not found"
