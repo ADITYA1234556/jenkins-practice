@@ -28,11 +28,12 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        python-version: [ 2.7, 3.8, 3.12 ]
+    runs-on: ubuntu-latest
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest, windows-latest, macos-latest ]
+#        python-version: [ 2.7, 3.8, 3.12 ]
 
     steps:
       - name: Checkout repo
@@ -119,3 +120,16 @@ jobs:
           to: "adityanavaneethan98@gmail.com"
           subject: "GitHub Build Failed: ${{ github.repository }} - Build #${{ github.run_id }}"
           body: "The build failed! You can access it here: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Echo
+        run: |
+          echo "Hello World"
+
