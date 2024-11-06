@@ -65,7 +65,7 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production"
-          aws s3 cp app.zip s3://111-aditya-kms/githubartifact/ --recursive --debug
+          aws s3 cp ./app.zip s3://111-aditya-kms/githubartifact/ --recursive --debug
 
       # Optional: Notification if the deployment is successful
       - name: Notify on Success
@@ -89,8 +89,8 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: "adityanavaneethan98@gmail.com"
           to: "adityanavaneethan98@gmail.com"
-          subject: "Jenkins Build Successful: ${GITHUB_REPOSITORY} - Build #${GITHUB_RUN_ID}"
-          body: "The build was successful! You can access it here: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          subject: "Jenkins Build Successful: ${{ github.repository }} - Build #${{ github.run_id }}"
+          body: "The build was successful! You can access it here: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
       - name: Send Failure Notification Email
         if: failure()
@@ -102,5 +102,5 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: "adityanavaneethan98@gmail.com"
           to: "adityanavaneethan98@gmail.com"
-          subject: "GitHub Build Failed: ${GITHUB_REPOSITORY} - Build #${GITHUB_RUN_ID}"
-          body: "The build failed! You can access it here: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          subject: "GitHub Build Failed: ${{ github.repository }} - Build #${{ github.run_id }}"
+          body: "The build failed! You can access it here: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
