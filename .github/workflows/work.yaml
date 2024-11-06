@@ -46,12 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-zip
-          path: ./app.zip
-
-      - name:
-        run: |
-          echo "Checking if app.zip exists"
-          ls -l ./app.zip || echo "app.zip not found"
+          path: app.zip
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -70,7 +65,7 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production"
-          aws s3 cp ./app.zip s3://111-aditya-kms/githubartifact/ --recursive --debug
+          aws s3 cp . s3://111-aditya-kms/githubartifact/ --recursive --debug
 
       # Optional: Notification if the deployment is successful
       - name: Notify on Success
