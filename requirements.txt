@@ -1,4 +1,5 @@
 Flask==2.1.1
+pytest==7.2.0
 Werkzeug==2.0.3   # or another version compatible with your Flask version
 ##
 #git
