@@ -46,7 +46,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-zip
-          path: app.zip
+          path: ./app.zip
+      - name:
+        Debug: Check if app.zip exists
+        run: |
+          echo "Checking if app.zip exists"
+          ls -l ./app.zip || echo "app.zip not found"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
