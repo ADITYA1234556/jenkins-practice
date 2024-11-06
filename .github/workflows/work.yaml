@@ -47,13 +47,19 @@ jobs:
           name: app-zip
           path: app.zip
 
+      - name: Verify AWS credentials
+        run: aws sts get-caller-identity
+
+      - name: List files
+        run: |
+          ls -R
 
       - name: Deploy to production
         env:
           ENV_VAR: ${{ secrets.SECRET_KEY }}
         run: |
           echo "Deploying to production"
-          aws s3 cp . s3://111-aditya-kms/ --recursive
+          aws s3 cp . s3://111-aditya-kms/ --recursive --debug
 
       # Optional: Notification if the deployment is successful
       - name: Notify on Success
